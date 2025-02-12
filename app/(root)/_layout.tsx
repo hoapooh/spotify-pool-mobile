@@ -1,8 +1,10 @@
-/* import { Slot, Stack } from "expo-router"
+import { Stack } from "expo-router";
 
-const RootLayout = () => {
-	return <Slot />
+export default function RootLayout() {
+	return (
+		<Stack screenOptions={{ headerShown: false }}>
+			<Stack.Screen name="(drawer)" />
+			<Stack.Screen name="profile" />
+		</Stack>
+	);
 }
-
-export default RootLayout
- */

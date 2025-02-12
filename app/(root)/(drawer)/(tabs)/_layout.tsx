@@ -2,6 +2,7 @@ import { View, Text, Image } from "react-native";
 import React from "react";
 import { Tabs } from "expo-router";
 import { icons } from "@/constants";
+import { DrawerToggleButton } from "@react-navigation/drawer";
 
 const TabIcon = ({
 	focused,
@@ -37,7 +38,9 @@ const TabsLayout = () => {
 		<Tabs
 			screenOptions={{
 				tabBarShowLabel: false,
-				headerShown: false,
+				// headerShown: false,
+				headerLeft: () => <DrawerToggleButton />,
+				headerTitleAlign: "center",
 				tabBarStyle: {
 					backgroundColor: "#000",
 					borderTopColor: "#0000004A",
@@ -50,7 +53,7 @@ const TabsLayout = () => {
 			}}
 		>
 			<Tabs.Screen
-				name="Home"
+				name="home"
 				options={{
 					title: "Home",
 					tabBarIcon: ({ focused, color }) => (
@@ -65,7 +68,7 @@ const TabsLayout = () => {
 				}}
 			/>
 			<Tabs.Screen
-				name="Search"
+				name="search"
 				options={{
 					title: "Search",
 					tabBarIcon: ({ focused, color }) => (
@@ -80,7 +83,7 @@ const TabsLayout = () => {
 				}}
 			/>
 			<Tabs.Screen
-				name="Your Library"
+				name="your-library"
 				options={{
 					title: "Your Library",
 					tabBarIcon: ({ focused, color }) => (
@@ -90,6 +93,21 @@ const TabsLayout = () => {
 							icon={icons.library}
 							iconfilled={icons.libraryfilled}
 							title="Your Library"
+						/>
+					),
+				}}
+			/>
+			<Tabs.Screen
+				name="add-playlist"
+				options={{
+					title: "Add",
+					tabBarIcon: ({ focused, color }) => (
+						<TabIcon
+							focused={focused}
+							color={color}
+							icon={icons.plus}
+							iconfilled={icons.plus}
+							title="Add"
 						/>
 					),
 				}}
