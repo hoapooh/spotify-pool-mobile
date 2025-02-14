@@ -1,13 +1,13 @@
-import { Stack } from "expo-router"
-import "./global.css"
-import * as SplashScreen from "expo-splash-screen"
-import { useEffect } from "react"
+import { Stack } from "expo-router";
+import "./global.css";
+import * as SplashScreen from "expo-splash-screen";
+import { useEffect } from "react";
 
-SplashScreen.preventAutoHideAsync()
+SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
 	useEffect(() => {
-		SplashScreen.hideAsync()
-	}, [])
+		SplashScreen.hideAsync();
+	}, []);
 
 	return (
 		<Stack screenOptions={{ headerShown: false }}>
@@ -15,5 +15,5 @@ export default function RootLayout() {
 			<Stack.Screen name="(root)" />
 			<Stack.Screen name="(auth)" />
 		</Stack>
-	)
+	);
 }

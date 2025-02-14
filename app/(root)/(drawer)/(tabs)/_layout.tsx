@@ -1,4 +1,4 @@
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import { Tabs } from "expo-router";
 import { icons } from "@/constants";
@@ -38,9 +38,13 @@ const TabsLayout = () => {
 		<Tabs
 			screenOptions={{
 				tabBarShowLabel: false,
-				// headerShown: false,
+				// headerShown: false, // NOTE: Uncomment this line to hide the header
 				headerLeft: () => <DrawerToggleButton />,
-				headerTitleAlign: "center",
+				headerTitle: "",
+				headerStyle: {
+					elevation: 0,
+					shadowOpacity: 0,
+				},
 				tabBarStyle: {
 					backgroundColor: "#000",
 					borderTopColor: "#0000004A",
@@ -54,8 +58,17 @@ const TabsLayout = () => {
 		>
 			<Tabs.Screen
 				name="home"
-				options={{
+				options={({ navigation }) => ({
 					title: "Home",
+					headerLeft: () => (
+						<TouchableOpacity onPress={() => navigation.openDrawer()}>
+							<Image
+								source={{ uri: "https://mighty.tools/mockmind-api/content/human/97.jpg" }}
+								resizeMode={"contain"}
+								className={"size-11 ml-3 rounded-full"}
+							/>
+						</TouchableOpacity>
+					),
 					tabBarIcon: ({ focused, color }) => (
 						<TabIcon
 							focused={focused}
@@ -65,12 +78,22 @@ const TabsLayout = () => {
 							title="Home"
 						/>
 					),
-				}}
+				})}
 			/>
+
 			<Tabs.Screen
 				name="search"
-				options={{
+				options={({ navigation }) => ({
 					title: "Search",
+					headerLeft: () => (
+						<TouchableOpacity onPress={() => navigation.openDrawer()}>
+							<Image
+								source={{ uri: "https://mighty.tools/mockmind-api/content/human/97.jpg" }}
+								resizeMode={"contain"}
+								className={"size-11 ml-3 rounded-full"}
+							/>
+						</TouchableOpacity>
+					),
 					tabBarIcon: ({ focused, color }) => (
 						<TabIcon
 							focused={focused}
@@ -80,12 +103,22 @@ const TabsLayout = () => {
 							title="Search"
 						/>
 					),
-				}}
+				})}
 			/>
+
 			<Tabs.Screen
 				name="your-library"
-				options={{
+				options={({ navigation }) => ({
 					title: "Your Library",
+					headerLeft: () => (
+						<TouchableOpacity onPress={() => navigation.openDrawer()}>
+							<Image
+								source={{ uri: "https://mighty.tools/mockmind-api/content/human/97.jpg" }}
+								resizeMode={"contain"}
+								className={"size-11 ml-3 rounded-full"}
+							/>
+						</TouchableOpacity>
+					),
 					tabBarIcon: ({ focused, color }) => (
 						<TabIcon
 							focused={focused}
@@ -95,12 +128,14 @@ const TabsLayout = () => {
 							title="Your Library"
 						/>
 					),
-				}}
+				})}
 			/>
+
 			<Tabs.Screen
 				name="add-playlist"
 				options={{
 					title: "Add",
+					headerShown: false,
 					tabBarIcon: ({ focused, color }) => (
 						<TabIcon
 							focused={focused}

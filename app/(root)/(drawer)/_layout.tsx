@@ -1,28 +1,31 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Drawer } from "expo-router/drawer";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import Feather from "@expo/vector-icons/Feather";
-import { router, useNavigation, usePathname } from "expo-router";
+import { router, usePathname } from "expo-router";
 import { DrawerContentComponentProps } from "@react-navigation/drawer";
 import { Image, Text, TouchableWithoutFeedback, View } from "react-native";
-import { icons } from "@/constants";
 
 interface CustomDrawerContentProps extends DrawerContentComponentProps {}
 
 const CustomDrawerContent: React.FC<CustomDrawerContentProps> = (props) => {
 	const pathname = usePathname();
 
+	const handleProfilePageChange = () => {
+		props.navigation.closeDrawer();
+		router.push("/profile");
+	};
+
 	return (
 		<DrawerContentScrollView {...props}>
 			<View className="flex flex-row w-full">
-				<TouchableWithoutFeedback className="w-full" onPress={() => router.push("/profile")}>
+				<TouchableWithoutFeedback className="w-full" onPress={handleProfilePageChange}>
 					<View className="flex flex-row items-center mb-4 gap-4">
 						<Image
 							source={{ uri: "https://mighty.tools/mockmind-api/content/human/125.jpg" }}
-							tintColor={"white"}
 							className="rounded-full size-20"
-							resizeMode="cover"
+							resizeMode="contain"
 						/>
 						<View>
 							<Text className="text-2xl text-white font-bold">hehe</Text>
@@ -31,6 +34,7 @@ const CustomDrawerContent: React.FC<CustomDrawerContentProps> = (props) => {
 					</View>
 				</TouchableWithoutFeedback>
 			</View>
+
 			<DrawerItem
 				icon={({ color, size }) => (
 					<Feather name="home" size={size} color={pathname === "/home" ? "#000" : "#fff"} />
@@ -42,9 +46,10 @@ const CustomDrawerContent: React.FC<CustomDrawerContentProps> = (props) => {
 				}}
 				style={{ backgroundColor: pathname === "/home" ? "#fff" : "transparent", borderRadius: 5 }}
 				onPress={() => {
-					router.push("/(root)/(drawer)/(tabs)/home");
+					router.push("/home");
 				}}
 			/>
+
 			<DrawerItem
 				icon={({ color, size }) => (
 					<Feather name="search" size={size} color={pathname === "/search" ? "#000" : "#fff"} />
@@ -56,7 +61,7 @@ const CustomDrawerContent: React.FC<CustomDrawerContentProps> = (props) => {
 					borderRadius: 5,
 				}}
 				onPress={() => {
-					router.push("/(root)/(drawer)/(tabs)/search");
+					router.push("/search");
 				}}
 			/>
 		</DrawerContentScrollView>
