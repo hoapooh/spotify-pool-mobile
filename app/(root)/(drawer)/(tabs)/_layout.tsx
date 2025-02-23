@@ -3,6 +3,7 @@ import React from "react";
 import { Tabs } from "expo-router";
 import { icons } from "@/constants";
 import { DrawerToggleButton } from "@react-navigation/drawer";
+import { Feather } from "@expo/vector-icons";
 
 const TabIcon = ({
 	focused,
@@ -33,20 +34,35 @@ const TabIcon = ({
 	</View>
 );
 
+const DrawerUserToggle = ({ navigation }: { navigation: any }) => (
+	<TouchableOpacity onPress={() => navigation.openDrawer()}>
+		<Image
+			source={{ uri: "https://mighty.tools/mockmind-api/content/human/97.jpg" }}
+			resizeMode={"contain"}
+			className={"size-11 ml-3 rounded-full"}
+		/>
+	</TouchableOpacity>
+);
+
 const TabsLayout = () => {
 	return (
 		<Tabs
 			screenOptions={{
 				tabBarShowLabel: false,
 				// headerShown: false, // NOTE: Uncomment this line to hide the header
-				headerLeft: () => <DrawerToggleButton />,
-				headerTitle: "",
+				headerTitleStyle: {
+					fontWeight: "bold",
+					fontSize: 24,
+					color: "#fff",
+					marginLeft: 10,
+				},
 				headerStyle: {
 					elevation: 0,
 					shadowOpacity: 0,
+					backgroundColor: "#121212",
 				},
 				tabBarStyle: {
-					backgroundColor: "#000",
+					backgroundColor: "#090909",
 					borderTopColor: "#0000004A",
 					borderTopWidth: 1,
 					elevation: 0,
@@ -60,15 +76,7 @@ const TabsLayout = () => {
 				name="home"
 				options={({ navigation }) => ({
 					title: "Home",
-					headerLeft: () => (
-						<TouchableOpacity onPress={() => navigation.openDrawer()}>
-							<Image
-								source={{ uri: "https://mighty.tools/mockmind-api/content/human/97.jpg" }}
-								resizeMode={"contain"}
-								className={"size-11 ml-3 rounded-full"}
-							/>
-						</TouchableOpacity>
-					),
+					headerLeft: () => <DrawerUserToggle navigation={navigation} />,
 					tabBarIcon: ({ focused, color }) => (
 						<TabIcon
 							focused={focused}
@@ -85,15 +93,7 @@ const TabsLayout = () => {
 				name="search"
 				options={({ navigation }) => ({
 					title: "Search",
-					headerLeft: () => (
-						<TouchableOpacity onPress={() => navigation.openDrawer()}>
-							<Image
-								source={{ uri: "https://mighty.tools/mockmind-api/content/human/97.jpg" }}
-								resizeMode={"contain"}
-								className={"size-11 ml-3 rounded-full"}
-							/>
-						</TouchableOpacity>
-					),
+					headerLeft: () => <DrawerUserToggle navigation={navigation} />,
 					tabBarIcon: ({ focused, color }) => (
 						<TabIcon
 							focused={focused}
@@ -110,13 +110,10 @@ const TabsLayout = () => {
 				name="your-library"
 				options={({ navigation }) => ({
 					title: "Your Library",
-					headerLeft: () => (
-						<TouchableOpacity onPress={() => navigation.openDrawer()}>
-							<Image
-								source={{ uri: "https://mighty.tools/mockmind-api/content/human/97.jpg" }}
-								resizeMode={"contain"}
-								className={"size-11 ml-3 rounded-full"}
-							/>
+					headerLeft: () => <DrawerUserToggle navigation={navigation} />,
+					headerRight: () => (
+						<TouchableOpacity onPress={() => {}} className={"mr-3"}>
+							<Feather name="plus" size={30} color="white" />
 						</TouchableOpacity>
 					),
 					tabBarIcon: ({ focused, color }) => (
@@ -129,23 +126,6 @@ const TabsLayout = () => {
 						/>
 					),
 				})}
-			/>
-
-			<Tabs.Screen
-				name="add-playlist"
-				options={{
-					title: "Add",
-					headerShown: false,
-					tabBarIcon: ({ focused, color }) => (
-						<TabIcon
-							focused={focused}
-							color={color}
-							icon={icons.plus}
-							iconfilled={icons.plus}
-							title="Add"
-						/>
-					),
-				}}
 			/>
 		</Tabs>
 	);

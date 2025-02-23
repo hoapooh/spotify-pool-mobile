@@ -1,15 +1,15 @@
-import { View, Text, Image } from "react-native"
-import React from "react"
-import { SafeAreaView } from "react-native-safe-area-context"
-import { icons } from "@/constants"
-import { LinearGradient } from "expo-linear-gradient"
-import CustomButton from "@/components/CustomButtom"
-import OAuth from "@/components/OAuth"
-import { Link, router } from "expo-router"
+import { View, Text, Image } from "react-native";
+import React from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { icons } from "@/constants";
+import { LinearGradient } from "expo-linear-gradient";
+import CustomButton from "@/components/CustomButtom";
+import OAuth from "@/components/OAuth";
+import { Link, router } from "expo-router";
 
 const welcome = () => {
 	return (
-		<SafeAreaView className="h-full flex items-center justify-center bg-dark-100 relative">
+		<SafeAreaView className="h-full flex items-center justify-center bg-dark-200 relative">
 			{/* ==== Background Effect ==== */}
 			<LinearGradient
 				// Background Linear Gradient
@@ -31,14 +31,14 @@ const welcome = () => {
 				title="Sign up free"
 				textVariant="primary"
 				classNameView="w-5/6 mt-20"
-				onPress={() => router.push("/(auth)/sign-up")}
+				onPress={() => router.push("/sign-up")}
 			/>
 
 			<CustomButton
 				title="Straight to Homepage"
 				textVariant="primary"
 				classNameView="w-5/6 mt-2"
-				onPress={() => router.push("/(root)/(tabs)/home")}
+				onPress={() => router.push("/home")}
 			/>
 
 			{/* ==== OAuth Google Login ==== */}
@@ -50,7 +50,7 @@ const welcome = () => {
 				<Text className="text-primary-200">Log In</Text>
 			</Link>
 		</SafeAreaView>
-	)
-}
+	);
+};
 
-export default welcome
+export default welcome;

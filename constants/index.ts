@@ -9,6 +9,7 @@ import search from "@/assets/icons/search.png";
 import library from "@/assets/icons/library.png";
 import libraryfilled from "@/assets/icons/library-filled.png";
 import plus from "@/assets/icons/plus.png";
+import lock from "@/assets/icons/lock.png";
 
 export const icons = {
 	spotifyBlack,
@@ -22,4 +23,11 @@ export const icons = {
 	library,
 	libraryfilled,
 	plus,
+	lock,
 };
+
+export const categories = [
+	{ title: "All", category: "All" },
+	{ title: "Playlists", category: "Playlist" },
+	{ title: "Albums", category: "Album" },
+];
