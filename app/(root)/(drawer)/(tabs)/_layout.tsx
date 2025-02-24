@@ -2,8 +2,8 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import { Tabs } from "expo-router";
 import { icons } from "@/constants";
-import { DrawerToggleButton } from "@react-navigation/drawer";
 import { Feather } from "@expo/vector-icons";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 
 const TabIcon = ({
 	focused,
@@ -46,88 +46,90 @@ const DrawerUserToggle = ({ navigation }: { navigation: any }) => (
 
 const TabsLayout = () => {
 	return (
-		<Tabs
-			screenOptions={{
-				tabBarShowLabel: false,
-				// headerShown: false, // NOTE: Uncomment this line to hide the header
-				headerTitleStyle: {
-					fontWeight: "bold",
-					fontSize: 24,
-					color: "#fff",
-					marginLeft: 10,
-				},
-				headerStyle: {
-					elevation: 0,
-					shadowOpacity: 0,
-					backgroundColor: "#121212",
-				},
-				tabBarStyle: {
-					backgroundColor: "#090909",
-					borderTopColor: "#0000004A",
-					borderTopWidth: 1,
-					elevation: 0,
-					minHeight: 60,
-				},
-				tabBarActiveTintColor: "#fff",
-				tabBarInactiveTintColor: "#b3b3b3",
-			}}
-		>
-			<Tabs.Screen
-				name="home"
-				options={({ navigation }) => ({
-					title: "Home",
-					headerLeft: () => <DrawerUserToggle navigation={navigation} />,
-					tabBarIcon: ({ focused, color }) => (
-						<TabIcon
-							focused={focused}
-							color={color}
-							icon={icons.home}
-							iconfilled={icons.homefilled}
-							title="Home"
-						/>
-					),
-				})}
-			/>
+		<BottomSheetModalProvider>
+			<Tabs
+				screenOptions={{
+					tabBarShowLabel: false,
+					// headerShown: false, // NOTE: Uncomment this line to hide the header
+					headerTitleStyle: {
+						fontWeight: "bold",
+						fontSize: 24,
+						color: "#fff",
+						marginLeft: 10,
+					},
+					headerStyle: {
+						elevation: 0,
+						shadowOpacity: 0,
+						backgroundColor: "#121212",
+					},
+					tabBarStyle: {
+						backgroundColor: "#090909",
+						borderTopColor: "#0000004A",
+						borderTopWidth: 1,
+						elevation: 0,
+						minHeight: 60,
+					},
+					tabBarActiveTintColor: "#fff",
+					tabBarInactiveTintColor: "#b3b3b3",
+				}}
+			>
+				<Tabs.Screen
+					name="home"
+					options={({ navigation }) => ({
+						title: "Home",
+						headerLeft: () => <DrawerUserToggle navigation={navigation} />,
+						tabBarIcon: ({ focused, color }) => (
+							<TabIcon
+								focused={focused}
+								color={color}
+								icon={icons.home}
+								iconfilled={icons.homefilled}
+								title="Home"
+							/>
+						),
+					})}
+				/>
 
-			<Tabs.Screen
-				name="search"
-				options={({ navigation }) => ({
-					title: "Search",
-					headerLeft: () => <DrawerUserToggle navigation={navigation} />,
-					tabBarIcon: ({ focused, color }) => (
-						<TabIcon
-							focused={focused}
-							color={color}
-							icon={icons.search}
-							iconfilled={icons.search}
-							title="Search"
-						/>
-					),
-				})}
-			/>
+				<Tabs.Screen
+					name="search"
+					options={({ navigation }) => ({
+						title: "Search",
+						headerLeft: () => <DrawerUserToggle navigation={navigation} />,
+						tabBarIcon: ({ focused, color }) => (
+							<TabIcon
+								focused={focused}
+								color={color}
+								icon={icons.search}
+								iconfilled={icons.search}
+								title="Search"
+							/>
+						),
+					})}
+				/>
 
-			<Tabs.Screen
-				name="your-library"
-				options={({ navigation }) => ({
-					title: "Your Library",
-					headerLeft: () => <DrawerUserToggle navigation={navigation} />,
-					headerRight: () => (
-						<TouchableOpacity onPress={() => {}} className={"mr-3"}>
-							<Feather name="plus" size={30} color="white" />
-						</TouchableOpacity>
-					),
-					tabBarIcon: ({ focused, color }) => (
-						<TabIcon
-							focused={focused}
-							color={color}
-							icon={icons.library}
-							iconfilled={icons.libraryfilled}
-							title="Your Library"
-						/>
-					),
-				})}
-			/>
-		</Tabs>
+				<Tabs.Screen
+					name="your-library"
+					options={({ navigation }) => ({
+						title: "Your Library",
+						headerLeft: () => <DrawerUserToggle navigation={navigation} />,
+						headerRight: () => (
+							<TouchableOpacity onPress={() => {}} className={"mr-3"}>
+								<Feather name="plus" size={30} color="white" />
+							</TouchableOpacity>
+						),
+						tabBarIcon: ({ focused, color }) => (
+							<TabIcon
+								focused={focused}
+								color={color}
+								icon={icons.library}
+								iconfilled={icons.libraryfilled}
+								title="Your Library"
+							/>
+						),
+					})}
+				/>
+			</Tabs>
+		</BottomSheetModalProvider>
 	);
 };
 

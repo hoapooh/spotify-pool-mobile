@@ -64,6 +64,21 @@ const CustomDrawerContent: React.FC<CustomDrawerContentProps> = (props) => {
 					router.push("/search");
 				}}
 			/>
+
+			<DrawerItem
+				icon={({ color, size }) => (
+					<Feather name="settings" size={size} color={pathname === "/settings" ? "#000" : "#fff"} />
+				)}
+				label={"Settings"}
+				labelStyle={{ fontSize: 18, color: pathname === "/settings" ? "#000" : "#fff" }}
+				style={{
+					backgroundColor: pathname === "/settings" ? "#fff" : "transparent",
+					borderRadius: 5,
+				}}
+				onPress={() => {
+					router.push("/settings");
+				}}
+			/>
 		</DrawerContentScrollView>
 	);
 };

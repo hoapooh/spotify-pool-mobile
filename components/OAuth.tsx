@@ -1,10 +1,10 @@
-import { View, Text, Image } from "react-native"
-import React from "react"
-import CustomButton from "./CustomButtom"
-import { icons } from "@/constants"
+import { View, Text, Image } from "react-native";
+import React from "react";
+import CustomButton from "./custom-button";
+import { icons } from "@/constants";
 
 const OAuth = () => {
-	const handleGoogleSignIn = async () => {}
+	const handleGoogleSignIn = async () => {};
 
 	return (
 		<View className="w-5/6">
@@ -24,7 +24,7 @@ const OAuth = () => {
 				)}
 			/>
 		</View>
-	)
-}
+	);
+};
 
-export default OAuth
+export default OAuth;

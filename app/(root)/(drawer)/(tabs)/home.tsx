@@ -12,7 +12,8 @@ const Home = () => {
 
 	return (
 		<SafeAreaView className="bg-dark-200 flex-1">
-			<View style={{ flex: 1, alignItems: "center", justifyContent: "space-around" }}>
+			{/* === This is for testing purpose === */}
+			<View>
 				<Text className="text-white">Your Expo push token: {expoPushToken}</Text>
 				<View style={{ alignItems: "center", justifyContent: "center" }}>
 					<Text className="text-white">
@@ -31,7 +32,6 @@ const Home = () => {
 						await sendPushNotification(expoPushToken);
 					}}
 				/>
-
 				<Button
 					title="Press to clear AsyncStorage"
 					onPress={async () => {

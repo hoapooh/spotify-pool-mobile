@@ -3,7 +3,7 @@ import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { icons } from "@/constants";
 import { LinearGradient } from "expo-linear-gradient";
-import CustomButton from "@/components/CustomButtom";
+import CustomButton from "@/components/custom-button";
 import OAuth from "@/components/OAuth";
 import { Link, router } from "expo-router";
 
@@ -32,13 +32,6 @@ const welcome = () => {
 				textVariant="primary"
 				classNameView="w-5/6 mt-20"
 				onPress={() => router.push("/sign-up")}
-			/>
-
-			<CustomButton
-				title="Straight to Homepage"
-				textVariant="primary"
-				classNameView="w-5/6 mt-2"
-				onPress={() => router.push("/home")}
 			/>
 
 			{/* ==== OAuth Google Login ==== */}

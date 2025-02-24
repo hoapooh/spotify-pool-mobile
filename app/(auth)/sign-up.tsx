@@ -1,9 +1,9 @@
 import React from "react";
 import { router } from "expo-router";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import CustomButton from "@/components/CustomButtom";
+import CustomButton from "@/components/custom-button";
 import { View, Text, TouchableOpacity, Platform, ScrollView } from "react-native";
-import InputField from "@/components/InputField";
+import InputField from "@/components/input-field";
 
 const SignUp = () => {
 	return (
