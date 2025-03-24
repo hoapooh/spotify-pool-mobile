@@ -2,8 +2,10 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import { Tabs } from "expo-router";
 import { icons } from "@/constants";
-import { Feather } from "@expo/vector-icons";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+import { useGetCurrentUser } from "@/hooks/authentication/useGetCurrentUser";
+import { IUserCurrent } from "@/types";
+import MiniPlayer from "@/features/audio/mini-player";
 
 const TabIcon = ({
 	focused,
@@ -34,10 +36,10 @@ const TabIcon = ({
 	</View>
 );
 
-const DrawerUserToggle = ({ navigation }: { navigation: any }) => (
+const DrawerUserToggle = ({ navigation, user }: { navigation: any; user: IUserCurrent }) => (
 	<TouchableOpacity onPress={() => navigation.openDrawer()}>
 		<Image
-			source={{ uri: "https://mighty.tools/mockmind-api/content/human/97.jpg" }}
+			source={{ uri: user?.authenticatedUserInfoResponseModel.avatar[0] }}
 			resizeMode={"contain"}
 			className={"size-11 ml-3 rounded-full"}
 		/>
@@ -45,6 +47,8 @@ const DrawerUserToggle = ({ navigation }: { navigation: any }) => (
 );
 
 const TabsLayout = () => {
+	const { currentUser } = useGetCurrentUser();
+
 	return (
 		<BottomSheetModalProvider>
 			<Tabs
@@ -77,7 +81,7 @@ const TabsLayout = () => {
 					name="home"
 					options={({ navigation }) => ({
 						title: "Home",
-						headerLeft: () => <DrawerUserToggle navigation={navigation} />,
+						headerLeft: () => <DrawerUserToggle navigation={navigation} user={currentUser!} />,
 						tabBarIcon: ({ focused, color }) => (
 							<TabIcon
 								focused={focused}
@@ -94,7 +98,7 @@ const TabsLayout = () => {
 					name="search"
 					options={({ navigation }) => ({
 						title: "Search",
-						headerLeft: () => <DrawerUserToggle navigation={navigation} />,
+						headerLeft: () => <DrawerUserToggle navigation={navigation} user={currentUser!} />,
 						tabBarIcon: ({ focused, color }) => (
 							<TabIcon
 								focused={focused}
@@ -109,14 +113,9 @@ const TabsLayout = () => {
 
 				<Tabs.Screen
 					name="your-library"
-					options={({ navigation }) => ({
+					options={({ navigation, route }) => ({
 						title: "Your Library",
-						headerLeft: () => <DrawerUserToggle navigation={navigation} />,
-						headerRight: () => (
-							<TouchableOpacity onPress={() => {}} className={"mr-3"}>
-								<Feather name="plus" size={30} color="white" />
-							</TouchableOpacity>
-						),
+						headerLeft: () => <DrawerUserToggle navigation={navigation} user={currentUser!} />,
 						tabBarIcon: ({ focused, color }) => (
 							<TabIcon
 								focused={focused}
@@ -129,6 +128,9 @@ const TabsLayout = () => {
 					})}
 				/>
 			</Tabs>
+
+			{/* Mini Player */}
+			<MiniPlayer />
 		</BottomSheetModalProvider>
 	);
 };

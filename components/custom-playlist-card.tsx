@@ -12,13 +12,13 @@ import Animated, {
 
 interface PlaylistCardProps {
 	playlistName: string;
-	playlistCategory: string;
+	images: string;
 	displayname: string;
 }
 
 const TimingConfig = { duration: 100, easing: Easing.linear };
 
-const CustomPlaylistCard = ({ playlistName, playlistCategory, displayname }: PlaylistCardProps) => {
+const CustomPlaylistCard = ({ playlistName, images, displayname }: PlaylistCardProps) => {
 	const pressed = useSharedValue(false);
 	const progress = useDerivedValue(() =>
 		pressed.value ? withTiming(1, TimingConfig) : withTiming(0, TimingConfig)
@@ -42,15 +42,12 @@ const CustomPlaylistCard = ({ playlistName, playlistCategory, displayname }: Pla
 			}}
 		>
 			<Animated.View style={animatedStyle} className="w-full flex-row items-center gap-3">
-				<Image
-					source={{ uri: "https://mighty.tools/mockmind-api/content/human/97.jpg" }}
-					className="w-20 h-20"
-				/>
+				<Image source={{ uri: images }} className="w-20 h-20 rounded-lg" />
 				<View>
-					<Text className="text-white text-xl font-semibold">{playlistName}</Text>
-					<Text className="text-secondary-100 font-normal">
-						{playlistCategory}•{displayname}
+					<Text numberOfLines={1} className="text-white text-xl font-semibold">
+						{playlistName}
 					</Text>
+					<Text className="text-secondary-100 font-normal">Playlist•{displayname}</Text>
 				</View>
 			</Animated.View>
 		</TouchableWithoutFeedback>

@@ -1,16 +1,15 @@
-import { loginApi } from "@/services/authApi";
+import { googleLoginApi } from "@/services/authApi";
 import { useAuthStore } from "@/store/useAuthStore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useMutation } from "@tanstack/react-query";
 import { router } from "expo-router";
 import Toast from "react-native-toast-message";
 
-export const useLoginAuth = () => {
+export const useGoogleLogin = () => {
 	const { setAuthentication } = useAuthStore();
 
-	const { mutate: login, isPending: isLoggingin } = useMutation({
-		mutationFn: ({ username, password }: { username: string; password: string }) =>
-			loginApi(username, password),
+	const { mutate: googleLogin, isPending: isLoggingInGoogle } = useMutation({
+		mutationFn: (googleToken: string) => googleLoginApi(googleToken),
 		onSuccess: (data) => {
 			Toast.show({
 				type: "success",
@@ -21,7 +20,7 @@ export const useLoginAuth = () => {
 
 			// console.log(JSON.stringify(data, null, 2));
 
-			AsyncStorage.setItem("access_token", data.accessToken.accessToken);
+			AsyncStorage.setItem("access_token", data.token.accessToken);
 			setAuthentication(true);
 
 			router.replace("/home");
@@ -35,5 +34,5 @@ export const useLoginAuth = () => {
 		},
 	});
 
-	return { login, isLoggingin };
+	return { googleLogin, isLoggingInGoogle };
 };

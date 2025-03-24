@@ -34,7 +34,7 @@ const CustomBottomSheet = ({ bottomSheetRef, snapPoints, children }: CustomBotto
 			backgroundStyle={{ backgroundColor: "#1f1f1f" }}
 			handleIndicatorStyle={{ backgroundColor: "#646464" }}
 		>
-			<BottomSheetView className="flex-1 p-8">{children}</BottomSheetView>
+			<BottomSheetView className="flex-1 p-4">{children}</BottomSheetView>
 		</BottomSheetModal>
 	);
 };

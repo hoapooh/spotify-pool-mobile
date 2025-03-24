@@ -5,6 +5,7 @@ interface AuthState {
 	isAuthenticated: boolean;
 	setAuthentication: (isAuthenticated: boolean) => void;
 	checkAuthentication: () => void;
+	logout: () => void;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -16,5 +17,9 @@ export const useAuthStore = create<AuthState>((set) => ({
 		if (access_token) {
 			set({ isAuthenticated: true });
 		}
+	},
+	logout: async () => {
+		await AsyncStorage.removeItem("access_token");
+		set({ isAuthenticated: false });
 	},
 }));

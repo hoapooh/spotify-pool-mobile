@@ -6,11 +6,13 @@ import Feather from "@expo/vector-icons/Feather";
 import { router, usePathname } from "expo-router";
 import { DrawerContentComponentProps } from "@react-navigation/drawer";
 import { Image, Text, TouchableWithoutFeedback, View } from "react-native";
+import { useGetCurrentUser } from "@/hooks/authentication/useGetCurrentUser";
 
 interface CustomDrawerContentProps extends DrawerContentComponentProps {}
 
 const CustomDrawerContent: React.FC<CustomDrawerContentProps> = (props) => {
 	const pathname = usePathname();
+	const { currentUser } = useGetCurrentUser();
 
 	const handleProfilePageChange = () => {
 		props.navigation.closeDrawer();
@@ -23,12 +25,14 @@ const CustomDrawerContent: React.FC<CustomDrawerContentProps> = (props) => {
 				<TouchableWithoutFeedback className="w-full" onPress={handleProfilePageChange}>
 					<View className="flex flex-row items-center mb-4 gap-4">
 						<Image
-							source={{ uri: "https://mighty.tools/mockmind-api/content/human/125.jpg" }}
+							source={{ uri: currentUser?.authenticatedUserInfoResponseModel.avatar[0] }}
 							className="rounded-full size-20"
 							resizeMode="contain"
 						/>
 						<View>
-							<Text className="text-2xl text-white font-bold">hehe</Text>
+							<Text className="text-2xl text-white font-bold">
+								{currentUser?.authenticatedUserInfoResponseModel.name}
+							</Text>
 							<Text className="text-lg text-white">View Profile</Text>
 						</View>
 					</View>
