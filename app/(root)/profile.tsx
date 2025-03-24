@@ -12,7 +12,7 @@ const Profile = () => {
 	const { currentUser } = useGetCurrentUser();
 	const { logout } = useAuthStore((state) => state);
 
-	const displayName = currentUser?.authenticatedUserInfoResponseModel.name || "Spotify User";
+	const displayName = currentUser?.authenticatedUserInfoResponseModel.name || "SP User";
 	const avatarUrl =
 		currentUser?.authenticatedUserInfoResponseModel.avatar[0] ||
 		"https://i.scdn.co/image/ab6761610000e5eb601fb0059596c0f89568da7b"; // Fallback image

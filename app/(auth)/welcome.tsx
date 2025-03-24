@@ -28,20 +28,20 @@ const welcome = () => {
 
 			{/* ==== Signup Button ==== */}
 			<CustomButton
-				title="Sign up free"
+				title="Sign in"
 				textVariant="primary"
 				classNameView="w-5/6 mt-20"
-				onPress={() => router.push("/sign-up")}
+				onPress={() => router.push("/sign-in")}
 			/>
 
 			{/* ==== OAuth Google Login ==== */}
 			<OAuth />
 
 			{/* ==== Login Link ==== */}
-			<Link href={"/sign-in"} className="text-lg text-center text-general-200 mt-10">
+			{/* <Link href={"/sign-in"} className="text-lg text-center text-general-200 mt-10">
 				<Text className="text-white">Already have an account?</Text>{" "}
 				<Text className="text-primary-200">Log In</Text>
-			</Link>
+			</Link> */}
 		</SafeAreaView>
 	);
 };

@@ -16,25 +16,34 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import CustomBottomSheet from "@/components/custom-bottom-sheet";
 import { useGetMyPlaylist } from "@/hooks/playlist/useGetMyPlaylist";
-
-const dumpData = [
-	{
-		playlistName: "Liked Songs",
-		playlistCategory: "Playlist",
-		displayname: "Playlist",
-	},
-];
+import { useCreatePLaylist } from "@/hooks/playlist/useCreatePlaylist";
 
 const YourLibrary = () => {
 	// NOTE: snap points is the percentage of the screen height
 	const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-	const snapPoints = useMemo(() => ["15%"], []);
+	// const snapPoints = useMemo(() => ["15%"], []);
+	const [playlistName, setPlaylistName] = React.useState("");
+	const [playlistDescription, setPlaylistDescription] = React.useState("");
+
+	const { createPlaylistMutation, isCreatingPlaylist } = useCreatePLaylist();
+	const { myPlaylist, isLoadingPlaylist } = useGetMyPlaylist();
 
 	const handlePresentModalPress = useCallback(() => {
 		bottomSheetModalRef.current?.present();
 	}, []);
 
-	const { myPlaylist, isLoadingPlaylist } = useGetMyPlaylist();
+	const handleCreatePlaylist = useCallback(() => {
+		if (playlistName.trim()) {
+			createPlaylistMutation({
+				playlistName: playlistName,
+				description: playlistDescription || "",
+			});
+
+			setPlaylistName("");
+			setPlaylistDescription("");
+			bottomSheetModalRef.current?.close();
+		}
+	}, [playlistName, playlistDescription, createPlaylistMutation]);
 
 	if (isLoadingPlaylist)
 		return (
@@ -81,26 +90,66 @@ const YourLibrary = () => {
 								displayname="Playlist"
 							/>
 						)}
+						ListEmptyComponent={() => (
+							<View className="flex-1 items-center justify-center py-16">
+								<View className="bg-dark-300 rounded-full p-6 mb-6">
+									<Feather name="music" size={48} color="#1DB954" />
+								</View>
+								<Text className="text-white text-xl font-bold mb-2">No playlists yet</Text>
+								<Text className="text-secondary-100 text-center mb-8 px-6">
+									Your created and followed playlists will appear here
+								</Text>
+								<TouchableOpacity
+									onPress={handlePresentModalPress}
+									className="bg-white rounded-full py-3 px-8 flex-row items-center"
+								>
+									<Feather name="plus" size={18} color="#000" className="mr-2" />
+									<Text className="text-black font-bold">Create playlist</Text>
+								</TouchableOpacity>
+							</View>
+						)}
 					/>
 
 					{/* === Bottom Sheet === */}
-					<CustomBottomSheet bottomSheetRef={bottomSheetModalRef} snapPoints={snapPoints}>
+					<CustomBottomSheet bottomSheetRef={bottomSheetModalRef}>
 						<View className="w-full">
 							<View className="w-full">
 								<Text className="text-white text-lg font-bold mb-4">Name</Text>
 								<TextInput
 									placeholder="Playlist Name"
-									className="bg-dark-400 text-white placeholder:text-white p-3 rounded-lg"
+									className="bg-dark-400 text-white placeholder:text-gray-400 p-3 rounded-lg"
+									placeholderTextColor="#757575"
+									value={playlistName}
+									onChangeText={setPlaylistName}
 								/>
 							</View>
 
-							<View className="w-full">
+							<View className="w-full mt-3">
 								<Text className="text-white text-lg font-bold mb-4">Description</Text>
 								<TextInput
-									placeholder="Playlist Name"
-									className="bg-dark-400 text-white placeholder:text-white p-3 rounded-lg"
+									placeholder="Describe your playlist"
+									className="bg-dark-400 text-white placeholder:text-gray-400 p-3 rounded-lg"
+									placeholderTextColor="#757575"
+									value={playlistDescription}
+									onChangeText={setPlaylistDescription}
+									multiline
+									numberOfLines={3}
 								/>
 							</View>
+
+							<TouchableOpacity
+								onPress={handleCreatePlaylist}
+								disabled={isCreatingPlaylist || !playlistName.trim()}
+								className={`w-full mt-5 py-3 rounded-full flex items-center justify-center ${
+									!playlistName.trim() ? "bg-gray-600" : "bg-[#1DB954]"
+								}`}
+							>
+								{isCreatingPlaylist ? (
+									<ActivityIndicator color="white" size="small" />
+								) : (
+									<Text className="text-white font-bold text-base">Create Playlist</Text>
+								)}
+							</TouchableOpacity>
 						</View>
 					</CustomBottomSheet>
 				</View>

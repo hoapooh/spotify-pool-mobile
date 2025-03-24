@@ -17,8 +17,6 @@ const MiniPlayer = () => {
 		router.push(`/(root)/(track)/${currentTrack.id}`);
 	};
 
-	console.log(JSON.stringify(currentTrack, null, 2));
-
 	return (
 		<BlurView
 			intensity={85}
