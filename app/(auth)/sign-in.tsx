@@ -1,14 +1,34 @@
-import React from "react"
-import { router } from "expo-router"
-import AntDesign from "@expo/vector-icons/AntDesign"
-import CustomButton from "@/components/CustomButtom"
-import { View, Text, TouchableOpacity, Platform, TextInput, ScrollView } from "react-native"
-import InputField from "@/components/InputField"
-import { icons } from "@/constants"
+import React, { useState } from "react";
+import { router } from "expo-router";
+import AntDesign from "@expo/vector-icons/AntDesign";
+import CustomButton from "@/components/custom-button";
+import { View, TouchableOpacity, Platform, ScrollView } from "react-native";
+import InputField from "@/components/input-field";
+import { useLoginAuth } from "@/hooks/authentication/useLoginAuth";
 
 const SignIn = () => {
+	const [username, setUsername] = useState("");
+	const [password, setPassword] = useState("");
+	const { isLoggingin, login } = useLoginAuth();
+
+	const handleLogin = () => {
+		if (!username || !password) {
+			return;
+		}
+
+		login(
+			{ username, password },
+			{
+				onSettled: () => {
+					setUsername("");
+					setPassword("");
+				},
+			}
+		);
+	};
+
 	return (
-		<ScrollView className="bg-dark-100 h-full relative">
+		<ScrollView className="bg-dark-200 h-full relative">
 			<View
 				className={`flex-row items-center justify-start relative z-30 px-5 ${
 					Platform.OS === "ios" ? "pt-6" : "pt-2"
@@ -26,7 +46,8 @@ const SignIn = () => {
 				<InputField
 					label="Email or username"
 					labelStyle="text-4xl font-bold text-white mb-3"
-					icon={icons.email}
+					onChange={(e) => setUsername(e.nativeEvent.text)}
+					icon={"mail"}
 					inputStyle="text-white placeholder:text-white/60 placeholder:no-underline"
 					focusStyle="bg-[#515151]"
 					placeholder="Enter your email"
@@ -35,17 +56,26 @@ const SignIn = () => {
 				<InputField
 					label="Password"
 					labelStyle="text-4xl font-bold text-white mb-3"
+					onChange={(e) => setPassword(e.nativeEvent.text)}
 					secureTextEntry={true}
-					icon={icons.email}
+					icon={"lock"}
 					inputStyle="text-white placeholder:text-white/60 placeholder:no-underline"
 					focusStyle="bg-[#515151]"
 					placeholder="Enter your password"
 				/>
 
-				<CustomButton title="Login" className="!w-1/3" textVariant="primary" classNameView="mt-3" />
+				<CustomButton
+					title="Login"
+					className="!w-1/3"
+					onPress={handleLogin}
+					disabled={isLoggingin}
+					isLoading={isLoggingin}
+					textVariant="primary"
+					classNameView="mt-3"
+				/>
 			</View>
 		</ScrollView>
-	)
-}
+	);
+};
 
-export default SignIn
+export default SignIn;

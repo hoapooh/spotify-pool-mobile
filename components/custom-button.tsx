@@ -1,36 +1,36 @@
-import { View, Text, TouchableOpacity, Animated } from "react-native"
-import React, { useRef } from "react"
-import { ButtonProps } from "@/types/type"
+import { Text, TouchableOpacity, Animated, ActivityIndicator } from "react-native";
+import React, { useRef } from "react";
+import { ButtonProps } from "@/types/type";
 
 const getBgVariantStyle = (variant: ButtonProps["bgVariant"]) => {
 	switch (variant) {
 		case "secondary":
-			return "bg-gray-500"
+			return "bg-gray-500";
 		case "danger":
-			return "bg-red-500"
+			return "bg-red-500";
 		case "success":
-			return "bg-green-500"
+			return "bg-green-500";
 		case "outline":
-			return "bg-transparent border-neutral-300 border-[0.5px]"
+			return "bg-transparent border-neutral-300 border-[0.5px]";
 		default:
-			return "bg-primary-100"
+			return "bg-primary-100";
 	}
-}
+};
 
 const getTextVariantStyle = (variant: ButtonProps["textVariant"]) => {
 	switch (variant) {
 		case "primary":
-			return "text-dark-100"
+			return "text-dark-200";
 		case "secondary":
-			return "text-gray-100"
+			return "text-gray-100";
 		case "danger":
-			return "text-red-100"
+			return "text-red-100";
 		case "success":
-			return "text-green-100"
+			return "text-green-100";
 		default:
-			return "text-white"
+			return "text-white";
 	}
-}
+};
 
 const CustomButton = ({
 	onPress,
@@ -41,23 +41,24 @@ const CustomButton = ({
 	IconRight,
 	className,
 	classNameView,
+	isLoading,
 	...props
 }: ButtonProps) => {
-	const scaleValue = useRef(new Animated.Value(1)).current
+	const scaleValue = useRef(new Animated.Value(1)).current;
 
 	const handlePressIn = () => {
 		Animated.spring(scaleValue, {
 			toValue: 0.95,
 			useNativeDriver: true,
-		}).start()
-	}
+		}).start();
+	};
 
 	const handlePressOut = () => {
 		Animated.spring(scaleValue, {
 			toValue: 1,
 			useNativeDriver: true,
-		}).start()
-	}
+		}).start();
+	};
 
 	return (
 		<Animated.View
@@ -75,11 +76,13 @@ const CustomButton = ({
 				{...props}
 			>
 				{IconLeft && <IconLeft />}
-				<Text className={`text-lg font-bold ${getTextVariantStyle(textVariant)}`}>{title}</Text>
+				<Text className={`text-lg font-bold ${getTextVariantStyle(textVariant)}`}>
+					{isLoading ? <ActivityIndicator size={"small"} color={"#1f1f1f"} /> : title}
+				</Text>
 				{IconRight && <IconRight />}
 			</TouchableOpacity>
 		</Animated.View>
-	)
-}
+	);
+};
 
-export default CustomButton
+export default CustomButton;

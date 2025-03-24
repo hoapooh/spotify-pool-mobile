@@ -7,14 +7,16 @@ import {
 	Platform,
 	Keyboard,
 	Text,
-} from "react-native"
-import React, { useState } from "react"
-import { InputFieldProps } from "@/types/type"
+} from "react-native";
+import React, { useState } from "react";
+import { InputFieldProps } from "@/types/type";
+import { Feather } from "@expo/vector-icons";
 
 const InputField = ({
 	labelStyle,
 	label,
 	icon,
+	iconColor,
 	secureTextEntry = false,
 	containerStyle,
 	focusStyle,
@@ -23,7 +25,7 @@ const InputField = ({
 	className,
 	...props
 }: InputFieldProps) => {
-	const [isFocused, setIsFocused] = useState(false)
+	const [isFocused, setIsFocused] = useState(false);
 
 	return (
 		<KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
@@ -35,7 +37,10 @@ const InputField = ({
 							isFocused ? focusStyle : ""
 						}`}
 					>
-						{icon && <Image source={icon} className={`size-6 ml-4 ${iconStyle}`} />}
+						{/* {icon && <Image source={icon} className={`size-6 ml-4 ${iconStyle}`} />} */}
+						{icon && (
+							<Feather name={icon} size={24} color={iconColor ?? "white"} className="ml-4" />
+						)}
 						<TextInput
 							className={`p-4 font-semibold text-lg underline flex-1 ${inputStyle} text-left`}
 							secureTextEntry={secureTextEntry}
@@ -47,7 +52,7 @@ const InputField = ({
 				</View>
 			</TouchableWithoutFeedback>
 		</KeyboardAvoidingView>
-	)
-}
+	);
+};
 
-export default InputField
+export default InputField;

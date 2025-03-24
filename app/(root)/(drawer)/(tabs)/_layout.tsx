@@ -2,7 +2,10 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import { Tabs } from "expo-router";
 import { icons } from "@/constants";
-import { DrawerToggleButton } from "@react-navigation/drawer";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+import { useGetCurrentUser } from "@/hooks/authentication/useGetCurrentUser";
+import { IUserCurrent } from "@/types";
+import MiniPlayer from "@/features/audio/mini-player";
 
 const TabIcon = ({
 	focused,
@@ -33,121 +36,102 @@ const TabIcon = ({
 	</View>
 );
 
+const DrawerUserToggle = ({ navigation, user }: { navigation: any; user: IUserCurrent }) => (
+	<TouchableOpacity onPress={() => navigation.openDrawer()}>
+		<Image
+			source={{ uri: user?.authenticatedUserInfoResponseModel.avatar[0] }}
+			resizeMode={"contain"}
+			className={"size-11 ml-3 rounded-full"}
+		/>
+	</TouchableOpacity>
+);
+
 const TabsLayout = () => {
+	const { currentUser } = useGetCurrentUser();
+
 	return (
-		<Tabs
-			screenOptions={{
-				tabBarShowLabel: false,
-				// headerShown: false, // NOTE: Uncomment this line to hide the header
-				headerLeft: () => <DrawerToggleButton />,
-				headerTitle: "",
-				headerStyle: {
-					elevation: 0,
-					shadowOpacity: 0,
-				},
-				tabBarStyle: {
-					backgroundColor: "#000",
-					borderTopColor: "#0000004A",
-					borderTopWidth: 1,
-					elevation: 0,
-					minHeight: 60,
-				},
-				tabBarActiveTintColor: "#fff",
-				tabBarInactiveTintColor: "#b3b3b3",
-			}}
-		>
-			<Tabs.Screen
-				name="home"
-				options={({ navigation }) => ({
-					title: "Home",
-					headerLeft: () => (
-						<TouchableOpacity onPress={() => navigation.openDrawer()}>
-							<Image
-								source={{ uri: "https://mighty.tools/mockmind-api/content/human/97.jpg" }}
-								resizeMode={"contain"}
-								className={"size-11 ml-3 rounded-full"}
-							/>
-						</TouchableOpacity>
-					),
-					tabBarIcon: ({ focused, color }) => (
-						<TabIcon
-							focused={focused}
-							color={color}
-							icon={icons.home}
-							iconfilled={icons.homefilled}
-							title="Home"
-						/>
-					),
-				})}
-			/>
-
-			<Tabs.Screen
-				name="search"
-				options={({ navigation }) => ({
-					title: "Search",
-					headerLeft: () => (
-						<TouchableOpacity onPress={() => navigation.openDrawer()}>
-							<Image
-								source={{ uri: "https://mighty.tools/mockmind-api/content/human/97.jpg" }}
-								resizeMode={"contain"}
-								className={"size-11 ml-3 rounded-full"}
-							/>
-						</TouchableOpacity>
-					),
-					tabBarIcon: ({ focused, color }) => (
-						<TabIcon
-							focused={focused}
-							color={color}
-							icon={icons.search}
-							iconfilled={icons.search}
-							title="Search"
-						/>
-					),
-				})}
-			/>
-
-			<Tabs.Screen
-				name="your-library"
-				options={({ navigation }) => ({
-					title: "Your Library",
-					headerLeft: () => (
-						<TouchableOpacity onPress={() => navigation.openDrawer()}>
-							<Image
-								source={{ uri: "https://mighty.tools/mockmind-api/content/human/97.jpg" }}
-								resizeMode={"contain"}
-								className={"size-11 ml-3 rounded-full"}
-							/>
-						</TouchableOpacity>
-					),
-					tabBarIcon: ({ focused, color }) => (
-						<TabIcon
-							focused={focused}
-							color={color}
-							icon={icons.library}
-							iconfilled={icons.libraryfilled}
-							title="Your Library"
-						/>
-					),
-				})}
-			/>
-
-			<Tabs.Screen
-				name="add-playlist"
-				options={{
-					title: "Add",
-					headerShown: false,
-					tabBarIcon: ({ focused, color }) => (
-						<TabIcon
-							focused={focused}
-							color={color}
-							icon={icons.plus}
-							iconfilled={icons.plus}
-							title="Add"
-						/>
-					),
+		<BottomSheetModalProvider>
+			<Tabs
+				screenOptions={{
+					tabBarShowLabel: false,
+					// headerShown: false, // NOTE: Uncomment this line to hide the header
+					headerTitleStyle: {
+						fontWeight: "bold",
+						fontSize: 24,
+						color: "#fff",
+						marginLeft: 10,
+					},
+					headerStyle: {
+						elevation: 0,
+						shadowOpacity: 0,
+						backgroundColor: "#121212",
+					},
+					tabBarStyle: {
+						backgroundColor: "#090909",
+						borderTopColor: "#0000004A",
+						borderTopWidth: 1,
+						elevation: 0,
+						minHeight: 60,
+					},
+					tabBarActiveTintColor: "#fff",
+					tabBarInactiveTintColor: "#b3b3b3",
 				}}
-			/>
-		</Tabs>
+			>
+				<Tabs.Screen
+					name="home"
+					options={({ navigation }) => ({
+						title: "Home",
+						headerLeft: () => <DrawerUserToggle navigation={navigation} user={currentUser!} />,
+						tabBarIcon: ({ focused, color }) => (
+							<TabIcon
+								focused={focused}
+								color={color}
+								icon={icons.home}
+								iconfilled={icons.homefilled}
+								title="Home"
+							/>
+						),
+					})}
+				/>
+
+				<Tabs.Screen
+					name="search"
+					options={({ navigation }) => ({
+						title: "Search",
+						headerLeft: () => <DrawerUserToggle navigation={navigation} user={currentUser!} />,
+						tabBarIcon: ({ focused, color }) => (
+							<TabIcon
+								focused={focused}
+								color={color}
+								icon={icons.search}
+								iconfilled={icons.search}
+								title="Search"
+							/>
+						),
+					})}
+				/>
+
+				<Tabs.Screen
+					name="your-library"
+					options={({ navigation, route }) => ({
+						title: "Your Library",
+						headerLeft: () => <DrawerUserToggle navigation={navigation} user={currentUser!} />,
+						tabBarIcon: ({ focused, color }) => (
+							<TabIcon
+								focused={focused}
+								color={color}
+								icon={icons.library}
+								iconfilled={icons.libraryfilled}
+								title="Your Library"
+							/>
+						),
+					})}
+				/>
+			</Tabs>
+
+			{/* Mini Player */}
+			<MiniPlayer />
+		</BottomSheetModalProvider>
 	);
 };
 
