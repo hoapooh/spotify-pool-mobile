@@ -6,11 +6,15 @@ import { Feather } from "@expo/vector-icons";
 
 interface CustomBottomSheetProps {
 	bottomSheetRef: React.RefObject<BottomSheetModal>;
-	snapPoints: string[];
+	snapPoints?: string[];
 	children: React.ReactNode;
 }
 
-const CustomBottomSheet = ({ bottomSheetRef, snapPoints, children }: CustomBottomSheetProps) => {
+const CustomBottomSheet = ({
+	bottomSheetRef,
+	snapPoints = [],
+	children,
+}: CustomBottomSheetProps) => {
 	// NOTE: this is use to handle the changes of the bottom sheet
 	/* const handleSheetChanges = useCallback((index: number) => {
 		console.log("handleSheetChanges", index);

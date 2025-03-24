@@ -31,7 +31,7 @@ const CustomDrawerContent: React.FC<CustomDrawerContentProps> = (props) => {
 						/>
 						<View>
 							<Text className="text-2xl text-white font-bold">
-								{currentUser?.authenticatedUserInfoResponseModel.name}
+								{currentUser?.authenticatedUserInfoResponseModel?.name || "SP User"}
 							</Text>
 							<Text className="text-lg text-white">View Profile</Text>
 						</View>
